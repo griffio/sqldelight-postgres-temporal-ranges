@@ -8,6 +8,10 @@ see https://www.postgresql.org/docs/current/rangetypes.html#RANGETYPES-CONSTRAIN
 
 You can use the `btree_gist` extension to define exclusion constraints on plain scalar data types, which can then be combined with range exclusions for maximum flexibility. 
 
+Allow only appointments on the hour or at half past the hour.
+Appointments are allowed in 30, 60, 90 and 120 minute durations.
+Overlapping appointments are not allowed by the exclusion constraint.
+
 ```sql
 
 CREATE EXTENSION btree_gist;
