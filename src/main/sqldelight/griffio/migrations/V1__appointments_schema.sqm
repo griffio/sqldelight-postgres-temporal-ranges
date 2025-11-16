@@ -1,0 +1,7 @@
+CREATE EXTENSION btree_gist;
+
+CREATE TABLE Appointments(
+  slot TSTZRANGE NOT NULL CHECK( date_part('minute', LOWER(slot)) IN (0, 30) AND date_part('minute', UPPER(slot)) IN (0, 30)),
+  duration INT NOT NULL GENERATED ALWAYS AS ( EXTRACT (epoch FROM UPPER(slot) - LOWER(slot)) / 60 ) STORED CHECK(duration IN (30, 60, 90, 120)),
+  EXCLUDE USING GIST(slot WITH &&)
+);

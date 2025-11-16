@@ -1,0 +1,11 @@
+appointments:
+SELECT LOWER(slot) AS begin, UPPER(slot) AS end, duration
+FROM Appointments;
+
+insert:
+INSERT INTO Appointments (slot) VALUES(?);
+
+selectAvailableAppointments:
+SELECT tstzmultirange(:user_availability::TSTZMULTIRANGE) - range_agg(slot) AS available_appointments
+FROM Appointments
+WHERE slot && tstzrange(:appointments_range::TSTZRANGE);
