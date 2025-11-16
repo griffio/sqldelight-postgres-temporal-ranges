@@ -20,6 +20,8 @@ CREATE TABLE Appointments(
 
 ```
 
+Return the empty time slots (as a multirange) by subtracting existing appointments from the user’s declared availability (as a multirange).
+
 ```sql
 selectAvailableAppointments:
 SELECT tstzmultirange(:user_availability::TSTZMULTIRANGE) - range_agg(slot) AS available_appointments
