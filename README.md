@@ -6,6 +6,8 @@ Example:
 
 see https://www.postgresql.org/docs/current/rangetypes.html#RANGETYPES-CONSTRAINT
 
+You can use the `btree_gist` extension to define exclusion constraints on plain scalar data types, which can then be combined with range exclusions for maximum flexibility. 
+
 ```sql
 
 CREATE EXTENSION btree_gist;
