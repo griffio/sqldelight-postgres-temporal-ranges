@@ -1,0 +1,32 @@
+name: Windows 11 Gradle Build
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [ windows-latest ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+
+      - name: Verify Gradle Wrapper
+        run: |
+          if (!(Test-Path -Path ".\gradlew.bat")) { throw "gradlew.bat not found" }
+        shell: pwsh
+
+      - name: Build
+        run: .\gradlew.bat --no-daemon build
+        shell: pwsh
