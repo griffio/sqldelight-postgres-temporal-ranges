@@ -9,7 +9,6 @@ group = "griffio"
 version = "1.0-SNAPSHOT"
 
 repositories {
-    maven(url = "https://central.sonatype.com/repository/maven-snapshots/")
     mavenCentral()
     google()
 }
@@ -23,7 +22,7 @@ sqldelight {
     databases {
         create("Sample") {
             deriveSchemaFromMigrations.set(true)
-            migrationOutputDirectory = file("$buildDir/generated/migrations")
+            migrationOutputDirectory = layout.buildDirectory.dir("generated/migrations").get().asFile
             migrationOutputFileFormat = ".sql" // Defaults to .sql
             packageName.set("griffio.queries")
             dialect(libs.sqldelight.postgresql.dialect)
@@ -44,7 +43,7 @@ flyway {
     url = "jdbc:postgresql://localhost:5432/appointments"
     user = "postgres"
     password = ""
-    locations = arrayOf("filesystem:$buildDir/generated/migrations")
+    locations = arrayOf("filesystem:${layout.buildDirectory.dir("generated/migrations").get().asFile}")
     baselineOnMigrate = true
     baselineVersion = "0"
 }
@@ -55,7 +54,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
 }
 
 application {
